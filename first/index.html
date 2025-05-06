@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>First Page</title>
   <link rel="stylesheet" href="/style.css" />
-  <script src="/global.js" defer></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="/global.js" defer></script> <!-- External global JS if needed -->
 </head>
 <body>
   <div class="container">
@@ -14,8 +15,24 @@
 
     <div id="viz"></div> <!-- Visualization placeholder -->
 
+    <div id="controls" style="margin-bottom: 20px;">
+      <label for="ageInput">Age:</label>
+      <input type="number" id="ageInput" min="0" style="width: 60px; margin-right: 10px;" />
+
+      <label for="sexInput">Sex:</label>
+      <select id="sexInput" style="margin-right: 10px;">
+        <option value="female">Female</option>
+        <option value="male">Male</option>
+      </select>
+
+      <label for="acuityInput">Your acuity:</label>
+      <input type="number" id="acuityInput" step="0.01" />
+
+      <button id="showBtn">Show Me</button>
+    </div>
   </div>
 
-  <script src="first.js"></script> <!-- Corresponding JS file -->
+  <script src="first.js" defer></script> <!-- Corresponding JS file -->
 </body>
 </html>
+
