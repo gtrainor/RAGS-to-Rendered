@@ -3,19 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>First Page</title>
+  <title>Third Page</title>
   <link rel="stylesheet" href="/style.css" />
   <script src="/global.js" defer></script>
 </head>
 <body>
   <div class="container">
-    <h2>Third Visualization</h2>
-    <p>This page shows the third data visualization.</p>
+    <h2>Visual Acuity Over Time, Filtered by Eye Condition</h2>
+
+    <label><input type="radio" name="eye-select" value="right" checked> Right Eye</label>
+    <label><input type="radio" name="eye-select" value="left"> Left Eye</label>
+
+    <select id="disease-select"></select>
+
+    <svg id="chart" width="800" height="400"></svg>
 
     <div id="viz"></div> <!-- Visualization placeholder -->
 
   </div>
 
-  <script src="third.js"></script> <!-- Corresponding JS file -->
+  <script type="module" src="third.js"></script> <!-- Corresponding JS file -->
 </body>
 </html>

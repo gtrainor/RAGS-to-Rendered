@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<<<<<<< HEAD
   <title>First Page</title>
   <link rel="stylesheet" href="/style.css" />
   <script src="/global.js" defer></script>
@@ -19,3 +20,211 @@
   <script src="fifth.js"></script> <!-- Corresponding JS file -->
 </body>
 </html>
+=======
+  <title>Visual Acuity Comparison: Right Eye vs Left Eye</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    h3 {
+      margin-top: 0;
+      text-align: center;
+      color: #666;
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+    .chart-container {
+      width: 100%;
+      height: 600px;
+      margin-top: 20px;
+    }
+    .controls {
+      background-color: #f0f8ff;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 15px;
+    }
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    label {
+      font-weight: bold;
+    }
+    select, input, button {
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    select {
+      min-width: 200px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .tooltip {
+      position: absolute;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      pointer-events: none;
+      font-size: 14px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .legend {
+      margin-top: 15px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 20px;
+    }
+    .legend-color {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      border-radius: 2px;
+    }
+    .info-box {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-left: 3px solid #4CAF50;
+      border-radius: 4px;
+    }
+    .acuity-scale {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 15px 0;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+    }
+    .acuity-scale div {
+      margin: 0 10px;
+      text-align: center;
+    }
+    .disclaimer {
+      font-style: italic;
+      color: #666;
+      font-size: 0.9em;
+      margin-top: 20px;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Visual Acuity Comparison</h1>
+    <h3>Right Eye vs Left Eye Across Different Diagnoses</h3>
+    
+    <div class="acuity-scale">
+      <div>
+        <strong>Visual Acuity Scale (logMAR)</strong>
+      </div>
+      <div>
+        -0.1 = 20/16 (Better)
+      </div>
+      <div>
+        0.0 = 20/20
+      </div>
+      <div>
+        0.3 = 20/40
+      </div>
+      <div>
+        1.0 = 20/200
+      </div>
+      <div>
+        Higher = Worse Vision
+      </div>
+    </div>
+    
+    <div class="controls">
+      <div class="control-group">
+        <label for="viewMode">View Mode:</label>
+        <select id="viewMode">
+          <option value="paired">Paired Bar Chart</option>
+          <option value="scatter">Scatter Plot</option>
+          <option value="difference">Difference Chart</option>
+        </select>
+      </div>
+      
+      <div class="control-group">
+        <label for="diagnosisFilter">Filter By Diagnosis:</label>
+        <select id="diagnosisFilter">
+          <option value="all">All Diagnoses</option>
+        </select>
+      </div>
+      
+      <div class="control-group">
+        <label for="minPatients">Minimum Patients:</label>
+        <input type="number" id="minPatients" min="1" value="5" style="width: 60px;">
+      </div>
+      
+      <button id="resetBtn">Reset View</button>
+    </div>
+    
+    <div id="chart" class="chart-container"></div>
+    
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #4e79a7;"></div>
+        <span>Right Eye</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #f28e2c;"></div>
+        <span>Left Eye</span>
+      </div>
+    </div>
+    
+    <div class="info-box">
+      <p><strong>About this visualization:</strong> This chart compares visual acuity measurements between right and left eyes across different eye diagnoses. Visual acuity is measured in logMAR units, where lower values represent better vision (0.0 is equivalent to 20/20 vision, negative values are better than 20/20, and higher positive values indicate worse vision).</p>
+      <p>The data shown represents average values for each diagnosis. You can switch between different view modes and filter by specific diagnoses using the controls above.</p>
+      <p class="disclaimer">Note: Only diagnoses with sufficient data points are displayed. Some patients may have multiple diagnoses.</p>
+    </div>
+  </div>
+  
+  <script src="fifth.js"></script>
+</body>
+</html>
+>>>>>>> ritvik-branch
