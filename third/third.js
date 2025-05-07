@@ -157,25 +157,23 @@ const yScale = d3.scaleLinear().range([0, innerHeight]); // Reversed range for y
 const xAxis = chart.append("g").attr("transform", `translate(0,${innerHeight})`);
 const yAxis = chart.append("g");
 
-// Add X-axis label
 chart.append("text")
     .attr("class", "x-label")
     .attr("x", innerWidth / 2)
-    .attr("y", innerHeight + 40) // Position below x-axis
+    .attr("y", innerHeight + 40)
     .attr("text-anchor", "middle")
     .text("Year");
 
-// Add Y-axis label
 chart.append("text")
     .attr("class", "y-label")
     .attr("transform", "rotate(-90)")
     .attr("x", -innerHeight / 2)
-    .attr("y", -50) // Position to the left of y-axis
+    .attr("y", -50)
     .attr("text-anchor", "middle")
     .text("Visual Acuity (logMAR)");
 
 let fullData = [];
-let selectedEye = "right";  // default
+let selectedEye = "right"; 
 
 d3.csv("../data/participants_info.csv", d => ({
   date: d3.timeParse("%Y-%m-%d")(d.date),
@@ -187,7 +185,6 @@ d3.csv("../data/participants_info.csv", d => ({
 })).then(data => {
   fullData = data;
 
-  // Collect all unique diseases across all diagnosis fields
   const diseaseCounts = {};
   data.forEach(d => {
     [d.diagnosis_1, d.diagnosis_2, d.diagnosis_3].forEach(diag => {
@@ -195,7 +192,7 @@ d3.csv("../data/participants_info.csv", d => ({
     });
   });
 
-  const threshold = 5; // Minimum occurrences to be included separately
+  const threshold = 5; 
   const commonDiseases = Object.entries(diseaseCounts)
     .filter(([_, count]) => count > threshold)
     .map(([name, _]) => name)
@@ -203,7 +200,6 @@ d3.csv("../data/participants_info.csv", d => ({
 
   const diseases = [...commonDiseases, "Other"];
 
-  // Populate dropdown
   const dropdown = d3.select("#disease-select");
   dropdown.selectAll("option")
     .data(diseases)
@@ -213,16 +209,13 @@ d3.csv("../data/participants_info.csv", d => ({
     .attr("value", d => d)
     .property("selected", d => d === "Normal");
 
-  // Dropdown change listener
   dropdown.on("change", updateFilteredData);
 
-  // Eye toggle listener
   d3.selectAll("input[name='eye-select']").on("change", function() {
     selectedEye = this.value;
     updateFilteredData();
   });
 
-  // Initial render
   updateFilteredData();
 
   function updateFilteredData() {
@@ -244,7 +237,6 @@ function updateChart(filteredData, eye) {
     ? d => d.visual_acuity_left
     : d => d.visual_acuity_right;
 
-  // Remove invalid rows
   const validData = filteredData.filter(d =>
     d.date instanceof Date &&
     !isNaN(d.date) &&
@@ -257,7 +249,6 @@ function updateChart(filteredData, eye) {
     return;
   }
 
-  // Group by year and compute average
   const dataByYear = d3.rollups(
     validData,
     values => d3.mean(values, yAccessor),
@@ -273,12 +264,12 @@ function updateChart(filteredData, eye) {
 
   xScale.domain(d3.extent(aggregatedData, d => d.date));
   
-  // Adjust y-scale to handle negative values and extend range slightly
+
   const yMin = d3.min(aggregatedData, d => d.visual_acuity);
   const yMax = d3.max(aggregatedData, d => d.visual_acuity);
-  // Add padding to both ends of the domain
+  
   const yPadding = (yMax - yMin) * 0.1;
-  yScale.domain([yMax + yPadding, yMin - yPadding]); // Reversed domain for better vision at top
+  yScale.domain([yMax + yPadding, yMin - yPadding]); 
 
   xAxis.call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%Y")));
   yAxis.call(d3.axisLeft(yScale));
@@ -301,8 +292,7 @@ function updateChart(filteredData, eye) {
     .attr("d", line);
 
   path.exit().remove();
-  
-  // Update the axis labels with information about the current view
+
   d3.select(".y-label")
     .text(`${eye.charAt(0).toUpperCase() + eye.slice(1)} Eye Visual Acuity (logMAR)`);
 }
